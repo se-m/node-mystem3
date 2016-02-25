@@ -47,6 +47,10 @@ Stops mystem process. Will be automatically stopped on process.exit();
 
 Returns promise with lemmatized version for passed word
 
+### myStem.analyze(text)
+
+Returns promise with data analysis for passed text
+
 ## AUTHOR
 koorchik (Viktor Turskyi)
 

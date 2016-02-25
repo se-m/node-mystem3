@@ -38,3 +38,15 @@ test('Lemmatize non word', function(done) {
         done();
     });
 });
+    
+test('Lemmatize first word only', function(done) {
+    var myStem = new MyStem();
+    myStem.start();
+
+    myStem.lemmatize("немцы с яблоками").then(function(lemma) {
+        assert.equal( lemma, "немец");
+    }).then(function() {
+        myStem.stop();
+        done();
+    });
+});

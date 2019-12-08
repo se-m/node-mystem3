@@ -6,22 +6,22 @@ var fs      = require('fs');
 var path    = require('path');
 var mkdirp  = require('mkdirp');
 var request = require('request');
-var targz   = require('tar.gz');
-var unzip = require('unzip');
+var tar   = require('tar');
+var unzip = require('unzipper');
 
 var TARBALL_URLS = {
     'linux': {
         'ia32': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz",
-        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.1-64bit.tar.gz",
+        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.1-linux-64bit.tar.gz",
         unzip: unzipFile
     },
     'darwin': {
-        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.0-macosx10.8.tar.gz",
+        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.1-macosx.tar.gz",
         unzip: unzipFile
     },
     'win32': {
         'ia32': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip",
-        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-64bit.zip",
+        'x64': "http://download.cdn.yandex.net/mystem/mystem-3.1-win-64bit.zip",
         unzip: function unzipFile(src, dest, cb) {
             fs.createReadStream(src)
               .pipe(unzip.Extract({ path: dest })).on('finish', cb);
@@ -51,7 +51,7 @@ function main() {
             TARBALL_URLS[platform].unzip(tmpFile, targetDir, function(err) {
                 if (err) throw err;
                 console.log('Unlink', tmpFile);
-                fs.unlink(tmpFile);
+                fs.unlinkSync(tmpFile);
             })
         });
     });
@@ -70,11 +70,14 @@ function downloadFile(url, dest, cb) {
     file.on('finish', function() {
         file.close(cb);  // close() is async, call cb after close completes.
     });
-};
+}
 
 function unzipFile(src, dest, cb) {
     console.log('Extracting %s', src);
-
-    new targz().extract(src, dest, cb);
+    
+    tar.extract({
+        cwd: dest,
+        file: src
+    }, null, cb)
 }
 

@@ -4,7 +4,7 @@ var MyStem = require('../lib/MyStem');
 
 function checkData (text, data, lemms){
   text = text.replace(/["',;.?!()\[\]|\/]+/g,"");
-  aWords = text.split(/\s+/);
+  var aWords = text.split(/\s+/);
   aWords.forEach(function (word, index){
      assert.equal(data[index].text, word);
      if (Array.isArray(lemms)){
@@ -27,8 +27,8 @@ test('Analyze known word', function() {
 test('Analyze known words', function() {
     var myStem = new MyStem();
     myStem.start();
-    text = "немец немца немцу немца немцем немце немцы немцев немцам немцев немцами немцах";
-    lemms = "немец ".repeat(12).trim();
+    var text = "немец немца немцу немца немцем немце немцы немцев немцам немцев немцами немцах";
+    var lemms = "немец ".repeat(12).trim();
     return myStem.analyze(text).then(function(data) {
         checkData( text, data, lemms);
     }).then(function() {
@@ -39,7 +39,7 @@ test('Analyze known words', function() {
 test('Analyze known text', function() {
     var myStem = new MyStem();
     myStem.start();
-    text = "Однажды в студеную зимнюю пору я из лесу вышел был сильный мороз";
+    var text = "Однажды в студеную зимнюю пору я из лесу вышел был сильный мороз";
     return myStem.analyze(text).then(function(data) {
         checkData( text, data);
     }).then(function() {
@@ -50,8 +50,8 @@ test('Analyze known text', function() {
 test('Analyze known text with punctuation', function() {
     var myStem = new MyStem();
     myStem.start();
-    text = "(Из стихотворения \"Крестьянские дети\")\r\n Однажды, в студеную зимнюю пору\r\nЯ из лесу вышел; был сильный мороз.";
-    lemms = "из стихотворение крестьянский ребенок однажды в студеный зимний пора я из лес выходить быть сильный мороз".split(' ');
+    var text = "(Из стихотворения \"Крестьянские дети\")\r\n Однажды, в студеную зимнюю пору\r\nЯ из лесу вышел; был сильный мороз.";
+    var lemms = "из стихотворение крестьянский ребенок однажды в студеный зимний пора я из лес выходить быть сильный мороз".split(' ');
     return myStem.analyze(text).then(function(data) {
         checkData( text, data, lemms);
     }).then(function() {

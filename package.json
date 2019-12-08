@@ -5,7 +5,7 @@
   "main": "lib/MyStem.js",
   "scripts": {
     "postinstall": "node bin/download-mystem.js",
-    "test": "mocha  --timeout 1000 --ui qunit tests/*"
+    "test": "mocha --ui qunit tests/*"
   },
   "repository": {
     "type": "git",
@@ -25,15 +25,14 @@
   },
   "homepage": "https://github.com/koorchik/node-mystem3",
   "dependencies": {
-    "bluebird": "^2.9.25",
     "mkdirp": "^0.5.0",
     "path": "^0.11.14",
     "request": "^2.55.0",
-    "tar.gz": "^1.0.3",
-    "unzip": "^0.1.11"
+    "tar": "^5.0.5",
+    "unzipper": "^0.10.5"
   },
   "devDependencies": {
     "chai": "^2.3.0",
-    "mocha": "^2.2.5"
+    "mocha": "^6.2.2"
   }
 }
